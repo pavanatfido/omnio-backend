@@ -1,1 +1,9 @@
-pnpm nx affected -t lint,test --base=origin/main
+# .husky/pre-push
+#!/usr/bin/env sh
+. "$(dirname "$0")/_/husky.sh"
+
+# figure out the upstream branch Git is about to push to
+BASE_REF=$(git rev-parse --abbrev-ref --symbolic-full-name @{u})
+
+echo "Running Nx affected against $BASE_REF…"
+pnpm nx affected -t lint,test --base=$BASE_REF
